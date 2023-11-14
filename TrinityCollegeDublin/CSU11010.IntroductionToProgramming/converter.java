@@ -1,19 +1,4 @@
-/* Write a program which repeatedly converts an entered weight from stones, pounds and ounces to kilograms. As part of your solution you must write and
-use the following functions:
-• convertToKilograms ( ) which takes a weight in stones, pounds and ounces and returns the weight in kilograms. • getFormattedWeightString ( ) which takes a weight in stones, pounds and ounces and returns a formatted String containing the weight as follows (and
-as illustrated in the examples below).
-• Only write out the number of stones/pounds/ounces if they are not 0,
-although if all are 0 then return “0 ounces”.
-• If the number of stones/pounds/ounces is not 1 then use the plural (i.e.
-stones/pounds/ ounces). Otherwise use the singular form (i.e.
-stone/pound/ounce).
-• There should be a comma after the stones if the number of pounds or
-ounces is not 0. Likewise, there should be a comma after the pounds in
-the number of ounces is not 0.
-Notes:
-• There are 14 Pounds in a stone and there are 16 ounces in a pound.
-• A single ounce is equal to 0.02834952 kilograms (often abbreviated as kg)
-*/
+
 
 import java.util.Scanner;
 public class Converter {
