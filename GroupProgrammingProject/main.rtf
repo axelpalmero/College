@@ -1,0 +1,456 @@
+PImage bg;
+Table table;
+PFont myFont;
+ArrayList<SpaceObject> theSpaceObject = new ArrayList<SpaceObject>();
+final int EVENT_NULL = 0;
+final int EVENT_1 =1;
+final int EVENT_2= 2;
+final int EVENT_3= 3;
+final int EVENT_4= 4;
+final int EVEN_5 = 5;
+static final int TEXT_WIDGET = 1;
+static final int TEXT_WIDGET5 = 2;
+static final int TEXT_WIDGET6 = 3;
+static final int TEXT_WIDGET7 = 4;
+
+int value = 0;
+Screen currentScreen, screen1, screen2, screen3, screen4, screenRussia, screenRussiaName, screenRussiaLdate, screenRussiaMass, screenUsa, screenUsaName, screenUsaLdate, screenUsaMass, screenChina, screenChinaName, screenChinaLdate, screenChinaMass;
+
+Widget widget1, widget2;
+TextWidget textedit;
+TextWidget typeOrDelet;
+TextWidget textedit5;
+TextWidget typeOrDelet5;
+TextWidget textedit6;
+TextWidget typeOrDelet6;
+TextWidget textedit7;
+TextWidget typeOrDelet7;
+ArrayList myWidgets;
+String currentInput;
+
+int index = 0;
+int y;
+
+void settings()
+{
+  size(SCREENX, SCREENY);
+}
+
+void setup()
+{
+  myFont = loadFont("ArialMT-18.vlw");
+  textFont(myFont);
+
+  //fullScreen();
+  bg = loadImage("earth.jpeg");
+
+
+  widget1 = new Widget(550, 290, 145, 45, "    Summary", color(#7393B3), myFont, EVENT_1);
+  widget2 = new Widget(900, 50, 80, 40, "Home", color(#C0C0C0), myFont, EVENT_2);
+
+  textedit = new TextWidget(40, 80, 145, 45, "Search for a list", color(178, 190, 181), myFont, TEXT_WIDGET, 14);
+  textedit5 = new TextWidget(550, 220, 145, 45, "", color(#4F4AF5), myFont, TEXT_WIDGET, 14);      //Russia
+  textedit6 = new TextWidget(550, 220, 145, 45, "", color(#4F4AF5), myFont, TEXT_WIDGET, 14);  // USA
+  textedit7 = new TextWidget(550, 220, 145, 45, "", color(#4F4AF5), myFont, TEXT_WIDGET, 14);  // China
+
+  myWidgets = new ArrayList();
+  myWidgets.add(textedit);
+  myWidgets.add(textedit5);
+  myWidgets.add(textedit6);
+  myWidgets.add(textedit7);
+  myWidgets.add(widget1);
+  myWidgets.add(widget2);
+  typeOrDelet = null;
+  typeOrDelet5 = null;
+  typeOrDelet6 = null;
+  typeOrDelet7 = null;
+
+
+  screen1 = new Screen(color(255));
+  screen2 = new Screen(color(255));
+  screen1.add(widget2);
+  screen2.add(widget1);
+  //screen1.add(textedit);
+  currentScreen = screen2;
+  screenRussia = new Screen(color(255));
+  screenRussiaName = new Screen(color(255));
+  screenRussiaLdate = new Screen(color(255));
+  screenRussiaMass = new Screen(color(255));
+  //screenRussia.draw(textedit5);
+  /*screenUsa = new Screen(color(255));
+   screenUsa.add(textedit6);
+   screenChina = new Screen(color(255));
+   screenChina.add(textedit7);*/
+
+  table = loadTable("gcat.tsv", "tsv");
+  println(table.getColumnCount());
+
+  ArrayList<String> headers = new ArrayList<String>();
+  for (int i = 0; i< 41; i++) {
+    headers.add(table.getString(0, i));
+  }
+  for (int i = 0; i < 41; i++) {
+    println(headers.get(i) + "");
+  }
+
+  for (int r = 0; r< table.getRowCount(); r++) {
+    SpaceObject spaceShip = new SpaceObject();
+    spaceShip.JCAT = table.getString(r, 0);
+    spaceShip.Satcat = table.getString(r, 1);
+    spaceShip.Piece = table.getString(r, 2);
+    spaceShip.Type = table.getString(r, 3);
+    spaceShip.Name = table.getString(r, 4);
+    spaceShip.PLName = table.getString(r, 5);
+    spaceShip.LDate = table.getString(r, 6);
+    spaceShip.Parent = table.getString(r, 7);
+    spaceShip.SDate = table.getString(r, 8);
+    spaceShip.Primary = table.getString(r, 9);
+    spaceShip.DDate = table.getString(r, 10);
+    spaceShip.Status = table.getString(r, 11);
+    spaceShip.Dest = table.getString(r, 12);
+    spaceShip.Owner = table.getString(r, 13);
+    spaceShip.State = table.getString(r, 14);
+    spaceShip.Manufacturer = table.getString(r, 15);
+    spaceShip.Bus = table.getString(r, 16);
+    spaceShip.Motor = table.getString(r, 17);
+    spaceShip.Mass = table.getString(r, 18);
+    spaceShip.MassFlag = table.getString(r, 19);
+    spaceShip.DryMass = table.getString(r, 20);
+    spaceShip.DryFlag = table.getString(r, 21);
+    spaceShip.TotMass = table.getString(r, 22);
+    spaceShip.TotFlag = table.getString(r, 23);
+    spaceShip.Length = table.getString(r, 24);
+    spaceShip.LFlag = table.getString(r, 25);
+    spaceShip.Diameter = table.getString(r, 26);
+    spaceShip.DFlag = table.getString(r, 27);
+    spaceShip.Span = table.getString(r, 28);
+    spaceShip.SpanFlag = table.getString(r, 29);
+    spaceShip.Shape = table.getString(r, 30);
+    spaceShip.ODate = table.getString(r, 31);
+    spaceShip.Perigee = table.getString(r, 32);
+    spaceShip.PF = table.getString(r, 33);
+    spaceShip.Apogee = table.getString(r, 34);
+    spaceShip.AF = table.getString(r, 35);
+    spaceShip.Inc = table.getString(r, 36);
+    spaceShip.IF = table.getString(r, 37);
+    spaceShip.OpOrbit = table.getString(r, 38);
+    spaceShip.OQUAL = table.getString(r, 39);
+    spaceShip.AltNames = table.getString(r, 40);
+    theSpaceObject.add(spaceShip);
+  }
+  for (int i = 0; i < 50; i++) {
+    println("Name: " + theSpaceObject.get(i).Name);
+    println("Mass: " + theSpaceObject.get(i).Mass);
+    println("Primary: " + theSpaceObject.get(i).Primary);
+    println("LDate: " + theSpaceObject.get(i).LDate);
+    println("JCAT: " + theSpaceObject.get(i).JCAT);
+    println("Satcat: " + theSpaceObject.get(i).Satcat);
+    println("Status: " + theSpaceObject.get(i).Status);
+    println("Type: " + theSpaceObject.get(i).Type);
+    println("Manufacturer: " + theSpaceObject.get(i).Manufacturer);
+    println("Parent: " + theSpaceObject.get(i).Parent);
+  }
+}
+
+void draw()
+{
+  //currentScreen.draw();
+
+  if (textedit5.label.equals("russia")) {
+    currentScreen = screenRussia;
+  } else if (textedit5.label.equals("usa")) {
+    currentScreen = screenUsa;
+  } else if (textedit5.label.equals("china")) {
+    currentScreen = screenChina;
+  }
+
+  // Russia
+  if (textedit5.label.equals("name")) {
+    currentScreen = screenRussiaName;
+  } else if (textedit5.label.equals("ldate")) {
+    currentScreen = screenRussiaLdate;
+  } else if (textedit5.label.equals("mass")) {
+    currentScreen = screenRussiaMass;
+  }
+
+  // USA
+  if (textedit6.label.equals("name")) {
+    currentScreen = screenUsaName;
+  } else if (textedit6.label.equals("ldate")) {
+    currentScreen = screenUsaLdate;
+  } else if (textedit6.label.equals("mass")) {
+    currentScreen = screenUsaMass;
+  }
+
+  // China
+  if (textedit7.label.equals("name")) {
+    currentScreen = screenChinaName;
+  } else if (textedit7.label.equals("ldate")) {
+    currentScreen = screenChinaLdate;
+  } else if (textedit7.label.equals("mass")) {
+    currentScreen = screenChinaMass;
+  }
+
+  if (currentScreen == screenRussiaName) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("SU") || theSpaceObject.get(i).State.equals("RU")) {
+        fill(255, 240, 245);
+        text("Name: " + theSpaceObject.get(i).Name, 550, -value+50+(i*15));
+      }
+    }
+  }
+  if (currentScreen == screenRussiaLdate) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("SU") || theSpaceObject.get(i).State.equals("RU")) {
+        fill(255, 240, 245);
+        text("Launch Date: " + theSpaceObject.get(i).LDate, 550, -value+50+(i*15));
+      }
+    }
+  }
+  if (currentScreen == screenRussiaMass) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("SU") || theSpaceObject.get(i).State.equals("RU")) {
+        fill(255, 240, 245);
+        text("Mass: " + theSpaceObject.get(i).Mass, 550, -value+50+(i*15));
+      }
+    }
+  }
+  if (currentScreen == screenUsaName) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("US")) {
+        fill(255, 240, 245);
+        text("Name: " + theSpaceObject.get(i).Name, 550, -value+50+(i*15));
+      }
+    }
+  }
+  if (currentScreen == screenUsaLdate) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("US")) {
+        fill(255, 240, 245);
+        text("Launch Date: " + theSpaceObject.get(i).LDate, 550, -value+50+(i*15));
+      }
+    }
+  }
+  if (currentScreen == screenUsaMass) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("US")) {
+        fill(255, 240, 245);
+        text("Mass: " + theSpaceObject.get(i).Mass, 550, -value+50+(i*15));
+      }
+    }
+  }
+  if (currentScreen == screenChinaName) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("CN")) {
+        fill(255, 240, 245);
+        text("Name: " + theSpaceObject.get(i).Name, 550, -value+50+(i*15));
+      }
+    }
+  }
+  if (currentScreen == screenChinaLdate) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("CN")) {
+        fill(255, 240, 245);
+        text("Launch Date: " + theSpaceObject.get(i).LDate, 550, -value+50+(i*15));
+      }
+    }
+  }
+  if (currentScreen == screenChinaMass) {
+    background(bg);
+    for (int i = 0; i < theSpaceObject.size(); i++) {
+      if (theSpaceObject.get(i).State.equals("CN")) {
+        fill(255, 240, 245);
+        text("Mass: " + theSpaceObject.get(i).Mass, 550, -value+50+(i*15));
+      }
+    }
+  }
+  
+  if (currentScreen == screen1) {
+    background(bg);
+    text("Summary Page", 220, -value+20);
+    fill(255, 255, 255);
+
+    for (int i = 1; i<40; i++) {
+      text("Name: " + theSpaceObject.get(i).Name, 10, -value+50+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("Mass: " + theSpaceObject.get(i).Mass, 250, -value+50+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("Primary: " + theSpaceObject.get(i).Primary, 400, -value+50+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("LDate: " + theSpaceObject.get(i).LDate, 550, -value+50+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("JCAT: " + theSpaceObject.get(i).JCAT, 10, -value+650+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("Satcat: " + theSpaceObject.get(i).Satcat, 150, -value+650+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("Status: " + theSpaceObject.get(i).Status, 250, -value+650+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("Manufacturer: " + theSpaceObject.get(i).Manufacturer, 350, -value+650+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("Type: " + theSpaceObject.get(i).Type, 530, -value+650+(i*15));
+    }
+    for (int i = 1; i<40; i++) {
+      text("Parent: " + theSpaceObject.get(i).Parent, 650, -value+650+(i*15));
+    }
+    widget2.draw();
+  } else if (currentScreen == screen2) {
+    background(bg);
+    fill(255, 240, 245);
+    text("HOME PAGE", 550, 150);
+    fill(255, 240, 245);
+    text("In the box below, type in: 'russia' / 'usa' / 'china'", 550, 200);
+    fill(255, 255, 255);
+    /*for (int i = 0; i<myWidgets.size(); i++)
+     {
+     ((newWidget)myWidgets.get(i)).draw();
+     }*/
+    //((newWidget)myWidgets.get(0)).draw();
+    //myWidgets.get(5).draw();
+    widget1.draw();
+    textedit5.draw();
+  }
+  if (currentScreen == screenRussia) {
+    background(bg);
+    fill(255, 240, 245);
+    text("Please erase 'russia' and type one of: 'name' / 'ldate' / 'mass'", 450, 200);
+    textedit5.draw();
+    //widget2.draw();
+  }
+  else if (currentScreen == screenUsa) {
+    background(bg);
+    fill(255, 240, 245);
+    text("Please type one of: 'name' / 'ldate' / 'mass'", 450, 200);
+    textedit6.draw();
+    //widget2.draw();
+  }
+  else if (currentScreen == screenChina) {
+    background(bg);
+    fill(255, 240, 245);
+    text("Please type one of: 'name' / 'ldate' / 'mass'", 450, 200);
+    textedit7.draw();
+    //widget2.draw();
+  }
+}
+void mousePressed() {
+  switch(currentScreen.getEvent(mouseX, mouseY)) {
+  case EVENT_1:
+    println("Summary Button Pressed");
+    currentScreen=screen1;
+    break;
+  case EVENT_2:
+    textedit.label = "Search for a list";
+    println("Home Button Pressed!");
+    currentScreen=screen2;
+    break;
+  }
+}
+
+void mouseMoved() {
+  int event;
+  ArrayList widgetList = currentScreen.getWidgets();
+  for (int i = 0; i<widgetList.size()-2; i++) {
+    Widget theWidget = (Widget) widgetList.get(i);
+    event = theWidget.getEvent(mouseX, mouseY);
+    if (event != EVENT_NULL) {
+      theWidget.mouseOver();
+    } else
+      theWidget.mouseNotOver();
+  }
+
+  int event1;
+  int event2;
+  int event3;
+  int event4;
+  for (int i = 0; i < myWidgets.size()-2; i++)
+  {
+    newWidget theWidget1 = (newWidget)myWidgets.get(i);
+    newWidget theWidget2 = (newWidget)myWidgets.get(i);
+    newWidget theWidget3 = (newWidget)myWidgets.get(i);
+    newWidget theWidget4 = (newWidget)myWidgets.get(i);
+    event1 = theWidget1.getEvent(mouseX, mouseY);
+    event2 = theWidget2.getEvent(mouseX, mouseY);
+    event3 = theWidget3.getEvent(mouseX, mouseY);
+    event4 = theWidget4.getEvent(mouseX, mouseY);
+
+    switch(event1)
+    {
+    case TEXT_WIDGET:
+      println("Clicked a text widget!");
+      typeOrDelet = (TextWidget)theWidget1;
+      return;
+    default:
+      typeOrDelet=null;
+    }
+    switch(event2) {
+    case TEXT_WIDGET5:
+      println("Clicked a text widget!");
+      typeOrDelet5 = (TextWidget)theWidget2;
+      return;
+    default:
+      typeOrDelet5=null;
+    }
+    switch(event3) {
+    case TEXT_WIDGET6:
+      println("Clicked a text widget!");
+      typeOrDelet6 = (TextWidget)theWidget3;
+      return;
+    default:
+      typeOrDelet6=null;
+    }
+    switch(event4) {
+    case TEXT_WIDGET5:
+      println("Clicked a text widget!");
+      typeOrDelet7 = (TextWidget)theWidget4;
+      return;
+    default:
+      typeOrDelet7=null;
+    }
+  }
+}
+
+void keyPressed() {
+  if (typeOrDelet!=null) {
+    typeOrDelet.append(key);
+  }
+  if (typeOrDelet5 != null) {
+    typeOrDelet5.append(key);
+  }
+  else if (typeOrDelet6 != null) {
+    typeOrDelet6.append(key);
+  }
+  else if (typeOrDelet7 != null) {
+    typeOrDelet7.append(key);
+  }
+}
+
+void mouseWheel(MouseEvent event)
+{
+  value += event.getCount() * 10;
+}
+
+void chart(int size) {
+  while (index<size) {
+    fill(index*30, index*50, index*20);
+    rect(100, y, ((Float.parseFloat(theSpaceObject.get(index).Mass))/30), 20);
+    fill(0);
+    text(theSpaceObject.get(index).Name, 5, y+15);
+    y = y+30;
+    index++;
+  }
+}
